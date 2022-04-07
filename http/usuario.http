@@ -1,0 +1,7 @@
+POST HTTP://localhost:3001/usuarios
+Content-Type: application/json
+
+{
+  "email": "fulano@gmail.com",
+  "senha": "123456"
+}
