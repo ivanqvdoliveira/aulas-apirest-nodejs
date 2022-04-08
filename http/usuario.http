@@ -13,18 +13,32 @@ Authorization: 19e33d6b0c5855f396293903460491a6
 
 ###
 
-GET HTTP://localhost:3001/usuarios/2
-Authorization: 4a44d8c5009d2e28034ba73e0c084c1a
+GET HTTP://localhost:3001/usuarios/4
+Authorization: 1755666da5d5985371ec2d48c7d629aa
 
 ###
 
 POST HTTP://localhost:3001/usuarios
 Content-Type: application/json
-Authorization: 93b8680c5b5f25956c3d5ae38e854b95
+Authorization: 5a4e1ea7fc04f2258ce3969c8a870a8a
 
 {
-  "nome": "Edson Arantes Pelé de Maradona",
-  "email": "pelemaradona@gmail.com",
-  "senha": "1234567",
-  "idPerfil": 1
+  "nome": "Beto Barbosa",
+  "email": "beto@gmail.com",
+  "idPerfil": 1,
+  "senha": "casadepraia123"
+}
+
+###
+
+PUT HTTP://localhost:3001/usuarios/4
+Content-Type: application/json
+Authorization: 1755666da5d5985371ec2d48c7d629aa
+
+{
+  "nome": "Tulio Maravilha",
+  "email": "pelemaradonatulio@gmail.com",
+  "idPerfil": "2",
+  "criadoEm": "2022-04-08T21:44:09.940Z",
+  "atualizadoEm": "2022-04-08T21:44:09.940Z"
 }

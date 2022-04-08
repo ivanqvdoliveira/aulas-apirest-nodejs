@@ -13,7 +13,7 @@ async function validarUsuario(email, senha){
   email = email.toString().toLowerCase();
     let usuario = await Usuario.findOne({ where: { email }});
   // Gerar hash da senha
-  senha = geradorToken.gerarHashDaSenha(senha);
+  senha = geradorToken.gerarHashDaSenha(senha)
 
   if(!usuario || (usuario.senha !== senha)){
     throw new NaoAutorizadoErro(401, "Usuário ou senha inválidos");
@@ -58,13 +58,36 @@ async function validarAutenticacao (token) {
 }
 
 async function cadastrar (usuarioDTO) {
-  let usuario = await Usuario.create(usuarioDTO)
+  usuarioDTO.senha = geradorToken.gerarHashDaSenha(usuarioDTO.senha) // transforma a senha num hash
 
-  if (!usuario) {
+  let usuario = await Usuario.create(usuarioDTO) // cria uma instancia de usuario
+
+  if (!usuario) { // se n tiver usuario manda retorno
     throw new AplicacaoErro(500, 'Falha ao cadastrar o usuario')
   }
 
-  return new UsuarioDTO(usuario)
+  let dto = new UsuarioDTO(usuario) // cria uma const de usuario 
+  dto.senha = undefined // remover a senha para n ficar publica
+  dto.perfil = new PerfilDTO(await Perfil.findByPk(dto.idPerfil)) // aqui ele adiciona o perfil ao cadastro porque quando vem do banco, n tem perfil. precisa então chamar o perfil de acordo com o id perfil o new cria, a partir do momento que ele busca no findByPk
+  return dto
+}
+
+async function atualizar (usuarioDTO) { // no estilo PUT atualizando o cadastro por inteiro, mesmo tentom udado uma parte apenas
+  let usuario = await Usuario.findByPk(usuarioDTO.id)
+
+  if(!usuario) {
+    throw new NaoEncontradoErro(404, `Não foi possível encontrar o usuário pelo ID ${id}`)
+  }
+  usuarioDTO.senha = usuario.senha // para garantir que a senha n se perca no processo, ela é adicionada aqui antes do update
+
+  usuario = await Usuario.update(usuarioDTO, {where: { id: usuarioDTO.id}}) //update leva dois parametros, o primeiro ele vai ver o que ele vai alterar o segundo ele passa um where pra identificar na lista qual será o usuario a ser alterado
+
+  if (!usuario || !usuario[0]) { // ao atualizar, ele vai devolver um array com duas posicoes, a 0 é o bojeto q atualizou e a 1 o comando q ele usou pra atualizar
+    throw new AplicacaoErro(500, `Falha ao atualizar o usuario com id ${usuarioDTO.id}`)
+  }
+
+  usuarioDTO.senha = undefined // após o sucesso no update, a senha é removida para que ela não fique publica no retorno
+  return new UsuarioDTO(usuarioDTO)
 }
 
 //quando tem undeline na frente da sunfção á para que ela n seja exportada, isso não impede que seja exportada, mas se acontecer foge do padrão e ta errado
@@ -95,5 +118,6 @@ module.exports = {
   logout,
   obterPorId,
   validarAutenticacao,
-  cadastrar
+  cadastrar,
+  atualizar
 }

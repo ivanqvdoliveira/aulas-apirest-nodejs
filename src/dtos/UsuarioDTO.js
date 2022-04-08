@@ -26,4 +26,16 @@ module.exports = class UsuarioDTO {
       throw new ModeloInvalidoErro(400, 'Os campos Nome, Email, Senha e idPerfil são obrigatórios.')
     }
   }
+
+  modeloValidoAtualizacao () {
+    let validacao = !!(this.email &&
+      this.id &&
+      this.nome &&
+      this.idPerfil
+    )
+
+    if (!validacao) {
+      throw new ModeloInvalidoErro(400, 'Os campos ID, Nome, Email e idPerfil são obrigatórios.')
+    }
+  }
 }

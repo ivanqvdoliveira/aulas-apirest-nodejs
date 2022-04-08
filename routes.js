@@ -25,5 +25,6 @@ routes.post("/login", usuarioController.login)
 routes.delete('/logout', usuarioController.logout)
 routes.get('/usuarios/:id', usuarioController.obterPorId)
 routes.post('/usuarios', usuarioController.cadastrar)
+routes.put('/usuarios/:id', usuarioController.atualizar)
 
 module.exports = routes

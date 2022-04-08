@@ -57,8 +57,25 @@ class UsuarioController {
     }
   }
 
-  atualizar (req, res) {
-    return res.json({id: 1, nome: 'fulano'})
+  async atualizar (req, res) {
+    const { id } = req.params
+
+    try {
+      if (!id) {
+        throw new ModeloInvalidoErro(400, 'O ID é obrigatório para atualizar o usuário')
+      }
+
+      let usuarioDTO = new UsuarioDTO(req.body) // vai criar e estanciar um usuario DTO
+      usuarioDTO.id = parseInt(id)
+      usuarioDTO.modeloValidoAtualizacao()
+
+      let usuarioAtualizado = await usuarioService.atualizar(usuarioDTO)
+      return res.json(usuarioAtualizado)
+
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
   }
 
   inativar (req, res) {
