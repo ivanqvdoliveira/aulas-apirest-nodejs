@@ -23,8 +23,6 @@ function removerNoCache (token) {
 
 function obterCredencial (usuario) {
   let credencial = usuariosLogados.find(c => c.usuario.id === usuario.id)
-
-  console.log({teste: credencial, logged: usuariosLogados})
   return credencial
 }
 

@@ -5,7 +5,8 @@ const UsuarioController = require('./src/controllers/UsuarioController')
 const usuarioController = new UsuarioController()
 
 // rotas do usuário
-routes.post("/usuarios", usuarioController.login)
-routes.get('/usuarios/:id', usuarioController.obter)
+routes.post("/login", usuarioController.login)
+routes.delete('/logout', usuarioController.logout)
+routes.get('/usuarios/:id', usuarioController.obterPorId)
 
 module.exports = routes

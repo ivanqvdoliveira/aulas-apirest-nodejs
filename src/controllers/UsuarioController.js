@@ -1,5 +1,5 @@
 const usuarioService = require('../services/usuarioService')
-const { NaoAutorizadoErro } = require('../erros/typeErros')
+const { NaoAutorizadoErro, ModeloInvalidoErro } = require('../erros/typeErros')
 
 class UsuarioController {
   async login (req, res) {
@@ -17,8 +17,28 @@ class UsuarioController {
     }
   }
 
-  obter (req, res) {
-    return res.json({id: 1, nome: 'fulano'})
+  async logout (req, res) {
+    try {
+      await usuarioService.logout(req.headers.authorization)
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
+  }
+
+  async obterPorId (req, res) {
+    const { id } = req.params
+    try {
+      if (!id) {
+        throw new ModeloInvalidoErro(400, 'O ID é obrigatório para obter o usuário')
+      }
+
+      let usuario = await usuarioService.obterPorId(id)
+      return res.json(usuario)
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
   }
 
   adicionar (req, res) {

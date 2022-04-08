@@ -1,7 +1,10 @@
 const Usuario = require('../models/Usuario')
-const { NaoAutorizadoErro } = require('../erros/typeErros')
+const Perfil = require('../models/Perfil')
+const { NaoAutorizadoErro, NaoEncontradoErro } = require('../erros/typeErros')
 const geradorToken = require('../utils/geradorToken')
 const usuarioCache = require('../cache/usuarioCache')
+const UsuarioDTO = require('../dtos/UsuarioDTO')
+const PerfilDTO = require('../dtos/PerfilDTO')
 
 async function validarUsuario(email, senha){
   // primeiro precisa saber se existe no banco de dados
@@ -20,6 +23,26 @@ async function validarUsuario(email, senha){
   let credencial = _criarCredencial(usuario)
 
   return credencial
+}
+
+async function logout (token) {
+  usuarioCache.removerNoCache(token)
+}
+
+async function obterPorId (id) {
+  let usuario = await Usuario.findByPk(id) // obter dados por chave primaria - vem do sequelize pk = primary key
+  // Usuario é um modelo do bando de dados
+
+  if(!usuario) {
+    throw new NaoEncontradoErro(404, `Não foi possível encontrar o usuário pelo ID ${id}`)
+  }
+
+  usuario.senha = undefined
+  let usuarioDTO = new UsuarioDTO(usuario)
+  let perfil = await Perfil.findByPk(usuario.idPerfil)
+  usuarioDTO.perfil = new PerfilDTO(perfil)
+
+  return usuarioDTO
 }
 
 //quando tem undeline na frente da sunfção á para que ela n seja exportada, isso não impede que seja exportada, mas se acontecer foge do padrão e ta errado
@@ -46,5 +69,7 @@ function _criarCredencial (usuario) {
 }
 
 module.exports = {
-  validarUsuario
+  validarUsuario,
+  logout,
+  obterPorId
 }
