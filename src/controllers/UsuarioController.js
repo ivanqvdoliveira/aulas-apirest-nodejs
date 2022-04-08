@@ -77,10 +77,6 @@ class UsuarioController {
       return res.status(error.status).json(error)
     }
   }
-
-  inativar (req, res) {
-    return res.json({id: 1, nome: 'fulano'})
-  }
 }
 
 module.exports = UsuarioController

@@ -13,31 +13,31 @@ Authorization: 19e33d6b0c5855f396293903460491a6
 
 ###
 
-GET HTTP://localhost:3001/usuarios/4
-Authorization: 1755666da5d5985371ec2d48c7d629aa
+GET HTTP://localhost:3001/usuarios/10
+Authorization: 982a690557e51bb768e5ac3f4b878a3f
 
 ###
 
 POST HTTP://localhost:3001/usuarios
 Content-Type: application/json
-Authorization: 5a4e1ea7fc04f2258ce3969c8a870a8a
+Authorization: 982a690557e51bb768e5ac3f4b878a3f
 
 {
-  "nome": "Beto Barbosa",
-  "email": "beto@gmail.com",
-  "idPerfil": 1,
+  "nome": "Maradona Cheirador",
+  "email": "maradona@gmail.com",
+  "idPerfil": 2,
   "senha": "casadepraia123"
 }
 
 ###
 
-PUT HTTP://localhost:3001/usuarios/4
+PUT HTTP://localhost:3001/usuarios/10
 Content-Type: application/json
-Authorization: 1755666da5d5985371ec2d48c7d629aa
+Authorization: 982a690557e51bb768e5ac3f4b878a3f
 
 {
-  "nome": "Tulio Maravilha",
-  "email": "pelemaradonatulio@gmail.com",
+  "nome": "Maradona Cheirador de Pó",
+  "email": "maradonacheirador@gmail.com",
   "idPerfil": "2",
   "criadoEm": "2022-04-08T21:44:09.940Z",
   "atualizadoEm": "2022-04-08T21:44:09.940Z"
