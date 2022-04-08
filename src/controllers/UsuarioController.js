@@ -10,6 +10,8 @@ class UsuarioController {
       }
 
       let credencial = await usuarioService.validarUsuario(email, senha);
+      return res.json(credencial)
+
     } catch (error) {
       console.log(error)
     }

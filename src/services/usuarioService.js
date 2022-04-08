@@ -16,7 +16,18 @@ async function validarUsuario(email, senha){
   }
     // vai lançar um erro e n retorna nada além, até ser tratado
 
-  console.log()
+  let credencial = _criarCredencial(usuario)
+
+  return credencial
+}
+
+//quando tem undeline na frente da sunfção á para que ela n seja exportada, isso não impede que seja exportada, mas se acontecer foge do padrão e ta errado
+function _criarCredencial (usuario) { 
+  let token = geradorToken.criarToken(usuario)
+  usuario.senha = undefined // zera a senha pra que ela n fique trafegando
+  let credencial = {token, usuario}
+
+  return credencial
 }
 
 module.exports = {
