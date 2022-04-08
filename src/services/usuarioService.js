@@ -1,6 +1,7 @@
 const Usuario = require('../models/Usuario')
 const { NaoAutorizadoErro } = require('../erros/typeErros')
 const geradorToken = require('../utils/geradorToken')
+const usuarioCache = require('../cache/usuarioCache')
 
 async function validarUsuario(email, senha){
   // primeiro precisa saber se existe no banco de dados
@@ -23,9 +24,23 @@ async function validarUsuario(email, senha){
 
 //quando tem undeline na frente da sunfção á para que ela n seja exportada, isso não impede que seja exportada, mas se acontecer foge do padrão e ta errado
 function _criarCredencial (usuario) { 
+
+  let dataExpiracao = geradorToken.gerarDataExpiracao()
+  let credencial = usuarioCache.obterCredencial(usuario)
+
+  if(credencial) {
+    if(credencial.dataExpiracao < new Date()) {
+      usuarioCache.removerNoCache(credencial.token)
+    } else {
+      usuarioCache.atualizarDataExpiracao(credencial.token, dataExpiracao)
+      return credencial
+    }
+  }
+
   let token = geradorToken.criarToken(usuario)
   usuario.senha = undefined // zera a senha pra que ela n fique trafegando
-  let credencial = {token, usuario}
+  credencial = {token, usuario, dataExpiracao}
+  usuarioCache.adicionarNoCache(credencial)
 
   return credencial
 }
