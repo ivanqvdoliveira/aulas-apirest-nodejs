@@ -45,6 +45,18 @@ async function obterPorId (id) {
   return usuarioDTO
 }
 
+async function validarAutenticacao (token) {
+  let credencial = usuarioCache.obterCredencialPorToken(token)
+  if (!credencial || credencial.dataExpiracao < new Date()) {
+    if (credencial) {
+      usuarioCache.removerNoCache(credencial.token)
+    }
+    return false
+  }
+
+  return true
+}
+
 //quando tem undeline na frente da sunfção á para que ela n seja exportada, isso não impede que seja exportada, mas se acontecer foge do padrão e ta errado
 function _criarCredencial (usuario) { 
 
@@ -71,5 +83,6 @@ function _criarCredencial (usuario) {
 module.exports = {
   validarUsuario,
   logout,
-  obterPorId
+  obterPorId,
+  validarAutenticacao
 }

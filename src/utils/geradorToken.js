@@ -9,7 +9,7 @@ function criarToken (usuario) {
   let emailBase64 = Buffer.from(usuario.email).toString('base64') // conversor do node, para varios tipo. string pra bite, ut8 e varios outros
   let secret
   let data = new Date()
-  let token = md5(`${emailBase64}.${secret}.${data.getTime}`)
+  let token = md5(`${emailBase64}.${secret}.${data.getTime()}`)
   return token
 }
 

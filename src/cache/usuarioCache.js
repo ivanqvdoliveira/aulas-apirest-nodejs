@@ -27,7 +27,7 @@ function obterCredencial (usuario) {
 }
 
 function obterCredencialPorToken (token) {
-  let credencial = usuariosLogados.find((c) => (c.usuario.token === token))
+  let credencial = usuariosLogados.find((c) => (c.token === token))
   return credencial
 }
 

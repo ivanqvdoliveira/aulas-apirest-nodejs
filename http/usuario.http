@@ -10,3 +10,9 @@ Content-Type: application/json
 
 DELETE HTTP://localhost:3001/logout
 Authorization: 4b90a7147603fd20d073f3b62f5fc0d8
+
+
+###
+
+GET HTTP://localhost:3001/usuarios/1
+Authorization: 4b90a7147603fd20d073f3b62f5fc0d8
