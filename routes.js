@@ -4,6 +4,8 @@ const usuarioService = require('./src/services/usuarioService')
 const UsuarioController = require('./src/controllers/UsuarioController')
 const usuarioController = new UsuarioController()
 
+
+// routes.use vai interceptar todas as rotas que forem chamadas
 routes.use(async (req, res, next) => {
   const { authorization } = req.headers
   let autenticado = await usuarioService.validarAutenticacao(authorization)
@@ -22,5 +24,6 @@ routes.use(async (req, res, next) => {
 routes.post("/login", usuarioController.login)
 routes.delete('/logout', usuarioController.logout)
 routes.get('/usuarios/:id', usuarioController.obterPorId)
+routes.post('/usuarios', usuarioController.cadastrar)
 
 module.exports = routes

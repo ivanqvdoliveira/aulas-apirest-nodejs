@@ -1,5 +1,6 @@
 const usuarioService = require('../services/usuarioService')
-const { NaoAutorizadoErro, ModeloInvalidoErro } = require('../erros/typeErros')
+const { NaoAutorizadoErro, ModeloInvalidoErro } = require('../erros/typeErros');
+const UsuarioDTO = require('../dtos/UsuarioDTO');
 
 class UsuarioController {
   async login (req, res) {
@@ -14,6 +15,7 @@ class UsuarioController {
 
     } catch (error) {
       console.log(error)
+      return res.status(error.status).json(error)
     }
   }
 
@@ -41,8 +43,18 @@ class UsuarioController {
     }
   }
 
-  adicionar (req, res) {
-    return res.json({id: 1, nome: 'fulano'})
+  async cadastrar (req, res) {
+    try {
+      let usuarioDTO = new UsuarioDTO(req.body) // vai criar e estanciar um usuario DTO
+      usuarioDTO.modeloValidoCadastro()
+
+      let usuarioCadastrado = await usuarioService.cadastrar(usuarioDTO)
+      return res.json(usuarioCadastrado)
+
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
   }
 
   atualizar (req, res) {

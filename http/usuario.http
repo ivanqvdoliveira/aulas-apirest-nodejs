@@ -9,10 +9,22 @@ Content-Type: application/json
 ###
 
 DELETE HTTP://localhost:3001/logout
-Authorization: 4b90a7147603fd20d073f3b62f5fc0d8
-
+Authorization: 19e33d6b0c5855f396293903460491a6
 
 ###
 
-GET HTTP://localhost:3001/usuarios/1
-Authorization: 4b90a7147603fd20d073f3b62f5fc0d8
+GET HTTP://localhost:3001/usuarios/2
+Authorization: 4a44d8c5009d2e28034ba73e0c084c1a
+
+###
+
+POST HTTP://localhost:3001/usuarios
+Content-Type: application/json
+Authorization: 93b8680c5b5f25956c3d5ae38e854b95
+
+{
+  "nome": "Edson Arantes Pelé de Maradona",
+  "email": "pelemaradona@gmail.com",
+  "senha": "1234567",
+  "idPerfil": 1
+}

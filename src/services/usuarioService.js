@@ -1,6 +1,6 @@
 const Usuario = require('../models/Usuario')
 const Perfil = require('../models/Perfil')
-const { NaoAutorizadoErro, NaoEncontradoErro } = require('../erros/typeErros')
+const { NaoAutorizadoErro, NaoEncontradoErro, AplicacaoErro } = require('../erros/typeErros')
 const geradorToken = require('../utils/geradorToken')
 const usuarioCache = require('../cache/usuarioCache')
 const UsuarioDTO = require('../dtos/UsuarioDTO')
@@ -57,6 +57,16 @@ async function validarAutenticacao (token) {
   return true
 }
 
+async function cadastrar (usuarioDTO) {
+  let usuario = await Usuario.create(usuarioDTO)
+
+  if (!usuario) {
+    throw new AplicacaoErro(500, 'Falha ao cadastrar o usuario')
+  }
+
+  return new UsuarioDTO(usuario)
+}
+
 //quando tem undeline na frente da sunfção á para que ela n seja exportada, isso não impede que seja exportada, mas se acontecer foge do padrão e ta errado
 function _criarCredencial (usuario) { 
 
@@ -84,5 +94,6 @@ module.exports = {
   validarUsuario,
   logout,
   obterPorId,
-  validarAutenticacao
+  validarAutenticacao,
+  cadastrar
 }
