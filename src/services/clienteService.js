@@ -8,6 +8,20 @@ const {
   AplicacaoErro
 } = require('../erros/typeErros')
 
+async function obterPorId (id) {
+  let cliente = await Cliente.findByPk(id)
+
+  if (!cliente) {
+    throw new NaoEncontradoErro(404, `Não foi possível encontrar cliente com id ${id}`)
+  }
+
+  cliente = new ClienteDTO(cliente)
+
+  let endereco = await Endereco.findAll({ where: { idCliente: id }})
+  cliente.enderecos = endereco.map(e => new EnderecoDTO(e))
+  return cliente
+}
+
 async function cadastrar (clienteDTO) {
   let cliente = Cliente.create(clienteDTO(clienteDTO)) // o create é do sequelize, ele sabe cadastrar fazer update etc.
   if (!cliente) {
@@ -28,7 +42,6 @@ async function cadastrar (clienteDTO) {
 }
 
 async function atualizar (clienteDTO) {
-  clienteDTO.id = parseInt(clienteDTO.id)
   let cliente  = await Cliente.findByPk(clienteDTO.id)
 
   if (!cliente) {
@@ -46,8 +59,6 @@ async function atualizar (clienteDTO) {
   } // vai pegar a lista de endereços e pra cada um deles vai atualizar no banco, pois não precisa inserir novmamente no DTo pois já está lá e está configurado, ainda não está tratando se por algum motivo o endereço estiver fora dos padrões
 
   return clienteDTO
-
-
 }
 
 modules.exports = {

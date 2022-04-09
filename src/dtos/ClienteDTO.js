@@ -14,7 +14,7 @@ module.exports = class ClienteDTO {
     this.atualizadoEm = obj.atualizadoEm
   }
 
-  modeloValido () {
+  modeloValidoCadastro () {
     if (!this.nome) {
       throw new ModeloInvalidoErro(400, 'O nome é obrigatório para cadastro')
     }
