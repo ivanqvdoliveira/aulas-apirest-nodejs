@@ -1,0 +1,91 @@
+POST HTTP://localhost:3001/login
+Content-Type: application/json
+
+{
+  "email": "fulano@gmail.com",
+  "senha": "123456"
+}
+
+###
+
+POST HTTP://localhost:3001/clientes
+Content-Type: application/json
+Authorization: 43b2e548da4bbc14661a8394ed906970
+
+{
+  "nome": "Edson Arantes",
+  "cpfOuCnpj": "12345678995",
+  "email": "edsonara@teste.com",
+  "telefone": "22334455",
+  "enderecos": [{
+    "cep": "09251845",
+    "rua": "Rua maravilha",
+    "numero": "1a",
+    "complemento": "nada",
+    "bairro": "lugar nenhum",
+    "cidade": "imaginaria",
+    "uf": "SP"
+  },{
+    "cep": "09251847",
+    "rua": "Rua otavio",
+    "numero": "32",
+    "complemento": "nenhum",
+    "bairro": "floreira",
+    "cidade": "belgica",
+    "uf": "MG"
+  }]
+}
+
+###
+
+GET HTTP://localhost:3001/cliente/1
+Authorization: 43b2e548da4bbc14661a8394ed906970
+
+###
+
+PUT HTTP://localhost:3001/cliente/1
+Content-Type: application/json
+Authorization: 9fdbce6430f59561ce83f2eae91ad909
+
+{
+  "nome": "Edson Arantes Nascimento",
+  "email": "edson@testedois.com",
+  "cpfOuCnpj": "12345678995",
+  "telefone": "983028724",
+  "enderecos": [
+    {
+      "id": "1",
+      "idCliente": "1",
+      "cep": "09210000",
+      "rua": "Rua argentina",
+      "numero": "123",
+      "complemento": "nada",
+      "bairro": "lugar nenhum",
+      "cidade": "imaginaria",
+      "uf": "SP",
+      "criadoEm": "2022-04-10T15:48:17.983Z",
+      "atualizadoEm": "2022-04-10T15:48:17.983Z"
+    },
+    {
+      "id": "2",
+      "idCliente": "1",
+      "cep": "09210000",
+      "rua": "Rua pacaembu",
+      "numero": "77",
+      "complemento": "nenhum",
+      "bairro": "pacaembu",
+      "cidade": "sao paulo",
+      "uf": "SP",
+      "criadoEm": "2022-04-10T15:48:26.093Z",
+      "atualizadoEm": "2022-04-10T15:48:26.093Z"
+    }
+  ],
+  "criadoEm": "2022-04-10T15:47:57.096Z",
+  "atualizadoEm": "2022-04-10T15:47:57.096Z"
+}
+
+
+###
+
+GET HTTP://localhost:3001/clientes
+Authorization: 5ff533e8db347af754436268908ecdfd

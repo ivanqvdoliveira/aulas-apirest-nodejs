@@ -20,20 +20,19 @@ Authorization: 982a690557e51bb768e5ac3f4b878a3f
 
 POST HTTP://localhost:3001/usuarios
 Content-Type: application/json
-Authorization: 982a690557e51bb768e5ac3f4b878a3f
 
 {
-  "nome": "Maradona Cheirador",
-  "email": "maradona@gmail.com",
-  "idPerfil": 2,
-  "senha": "casadepraia123"
+  "nome": "Ivan Oliviera",
+  "email": "ivan@msn.com",
+  "idPerfil": 1,
+  "senha": "1234"
 }
 
 ###
 
 PUT HTTP://localhost:3001/usuarios/10
 Content-Type: application/json
-Authorization: 982a690557e51bb768e5ac3f4b878a3f
+Authorization: 375627350ca743d09ee540dc26530154
 
 {
   "nome": "Maradona Cheirador de Pó",

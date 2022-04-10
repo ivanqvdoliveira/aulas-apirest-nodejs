@@ -3,6 +3,16 @@ const { NaoAutorizadoErro, ModeloInvalidoErro } = require('../erros/typeErros');
 const ClienteDTO = require('../dtos/ClienteDTO');
 
 class ClienteController {
+  async obterTodos (req, res) {
+    try {
+      let clientes = await clienteService.obterTodos()
+      return res.json(clientes)
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
+  }
+
   async obterPorId (req, res) {
     const id = parseInt(req.params.id)
     try {

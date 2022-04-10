@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('ernderecos', {
+    return queryInterface.createTable('enderecos', {
       id: {
         type: Sequelize.BIGINT, // bigint numero muito grande, pra poder caber mta coisa.
         primaryKey: true, // vai ser chave primaria da tabela
@@ -53,6 +53,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ernderecos')
+    return queryInterface.dropTable('enderecos')
   }
 };
