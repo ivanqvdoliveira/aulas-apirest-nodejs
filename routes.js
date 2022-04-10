@@ -3,8 +3,10 @@ const routes = express.Router()
 const usuarioService = require('./src/services/usuarioService')
 const UsuarioController = require('./src/controllers/UsuarioController')
 const ClienteController = require('./src/controllers/ClienteController')
+const ServicoController = require('./src/controllers/ServicoController')
 const usuarioController = new UsuarioController()
 const clienteController = new ClienteController()
+const servicoController = new ServicoController()
 
 
 // routes.use vai interceptar todas as rotas que forem chamadas
@@ -34,5 +36,11 @@ routes.get('/clientes', clienteController.obterTodos)
 routes.get('/cliente/:id', clienteController.obterPorId)
 routes.post('/clientes', clienteController.cadastrar)
 routes.put('/cliente/:id', clienteController.atualizar)
+
+// rotas de servicos
+routes.get('/servicos', servicoController.obterTodos)
+routes.get('/servico/:id', servicoController.obterPorId)
+routes.post('/servicos', servicoController.cadastrar)
+routes.put('/servico/:id',servicoController.atualizar)
 
 module.exports = routes

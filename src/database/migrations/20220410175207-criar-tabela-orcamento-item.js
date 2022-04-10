@@ -2,26 +2,38 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('prestadores', {
+    return queryInterface.createTable('orcamento-item', {
       id: {
         type: Sequelize.BIGINT,
         primaryKey: true,
         autoIncrement: true
       },
-      nome: {
-        type: Sequelize.STRING,
+      idOrcamento: {
+        type: Sequelize.BIGINT,
         allowNull: false,
       },
-      email: {
-        type: Sequelize.STRING,
+      idServico: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+      },
+      idPrestador: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+      },
+      desconto: {
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
-      telefone: {
-        type: Sequelize.STRING,
+      acrescimo: {
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
-      cpfOuCnpj: {
-        type: Sequelize.STRING,
+      valor: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
+      },
+      valorTotal: {
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       observacao: {
@@ -41,6 +53,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('prestadores')
+    return queryInterface.dropTable('orcamento-item')
   }
 };

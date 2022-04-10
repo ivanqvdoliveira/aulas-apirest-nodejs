@@ -3,7 +3,6 @@ const Endereco = require('../models/Endereco')
 const ClienteDTO = require('../dtos/ClienteDTO')
 const EnderecoDTO = require('../dtos/EnderecoDTO')
 const {
-  NaoAutorizadoErro,
   NaoEncontradoErro,
   AplicacaoErro
 } = require('../erros/typeErros')
