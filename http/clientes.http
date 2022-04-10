@@ -10,29 +10,21 @@ Content-Type: application/json
 
 POST HTTP://localhost:3001/clientes
 Content-Type: application/json
-Authorization: 43b2e548da4bbc14661a8394ed906970
+Authorization: aac2a494881d6e5fc67eff40d618d82b
 
 {
-  "nome": "Edson Arantes",
-  "cpfOuCnpj": "12345678995",
-  "email": "edsonara@teste.com",
-  "telefone": "22334455",
+  "nome": "Sasha Meneguel",
+  "cpfOuCnpj": "35789635896",
+  "email": "sasha@teste.com",
+  "telefone": "998856323",
   "enderecos": [{
-    "cep": "09251845",
-    "rua": "Rua maravilha",
-    "numero": "1a",
-    "complemento": "nada",
-    "bairro": "lugar nenhum",
-    "cidade": "imaginaria",
+    "cep": "01234010",
+    "rua": "Rua pacaembu",
+    "numero": "321",
+    "complemento": "praça",
+    "bairro": "pacaembu",
+    "cidade": "sao paulo",
     "uf": "SP"
-  },{
-    "cep": "09251847",
-    "rua": "Rua otavio",
-    "numero": "32",
-    "complemento": "nenhum",
-    "bairro": "floreira",
-    "cidade": "belgica",
-    "uf": "MG"
   }]
 }
 
@@ -88,4 +80,4 @@ Authorization: 9fdbce6430f59561ce83f2eae91ad909
 ###
 
 GET HTTP://localhost:3001/clientes
-Authorization: 5ff533e8db347af754436268908ecdfd
+Authorization: aac2a494881d6e5fc67eff40d618d82b
