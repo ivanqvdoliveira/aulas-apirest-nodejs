@@ -1,12 +1,12 @@
-const servicoService = require('../services/servicoService')
+const prestadorService = require('../services/prestadorService')
 const { ModeloInvalidoErro } = require('../erros/typeErros');
-const ServicoDTO = require('../dtos/ServicoDTO');
+const PrestadorDTO = require('../dtos/PrestadorDTO');
 
-class ServicoController {
+class PrestadorController {
   async obterTodos (req, res) {
     try {
-      let servicos = await servicoService.obterTodos()
-      return res.json(servicos)
+      let prestadores = await prestadorService.obterTodos()
+      return res.json(prestadores)
     } catch (error) {
       console.log(error)
       return res.status(error.status).json(error)
@@ -17,11 +17,11 @@ class ServicoController {
     const id = parseInt(req.params.id)
     try {
       if (!id || isNaN(id)) {
-        throw new ModeloInvalidoErro(400, 'ID inválido para consulta de serviço.')
+        throw new ModeloInvalidoErro(400, 'ID inválido para consulta de prestador.')
       }
 
-      let servico = await servicoService.obterPorId(id)
-      return res.json(servico)
+      let prestador = await prestadorService.obterPorId(id)
+      return res.json(prestador)
     } catch (error) {
       console.log(error)
       return res.status(error.status).json(error)
@@ -30,11 +30,11 @@ class ServicoController {
 
   async cadastrar (req, res) {
     try {
-      let servicoDTO = new ServicoDTO(req.body)
-      servicoDTO.modeloValidoCadastro()
+      let prestadorDTO = new PrestadorDTO(req.body)
+      prestadorDTO.modeloValidoCadastro()
 
-      let servicoCadastrado = await servicoService.cadastrar(servicoDTO)
-      return res.json(servicoCadastrado)
+      let prestadorCadastrado = await prestadorService.cadastrar(prestadorDTO)
+      return res.json(prestadorCadastrado)
 
     } catch (error) {
       console.log(error)
@@ -47,15 +47,15 @@ class ServicoController {
 
     try {
       if (!id) {
-        throw new ModeloInvalidoErro(400, 'O ID é obrigatório para atualizar o serviço')
+        throw new ModeloInvalidoErro(400, 'O ID é obrigatório para atualizar o prestador')
       }
 
-      let servicoDTO = new ServicoDTO(req.body)
-      servicoDTO.id = parseInt(id)
-      servicoDTO.modeloValidoAtualizacao()
+      let prestadorDTO = new PrestadorDTO(req.body)
+      prestadorDTO.id = parseInt(id)
+      prestadorDTO.modeloValidoAtualizacao()
 
-      let servicoAtualizado = await servicoService.atualizar(servicoDTO)
-      return res.json(servicoAtualizado)
+      let prestadorAtualizado = await prestadorService.atualizar(prestadorDTO)
+      return res.json(prestadorAtualizado)
 
     } catch (error) {
       console.log(error)
@@ -64,4 +64,4 @@ class ServicoController {
   }
 }
 
-module.exports = ServicoController
+module.exports = PrestadorController

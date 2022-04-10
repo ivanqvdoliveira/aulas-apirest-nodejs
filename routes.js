@@ -1,12 +1,16 @@
 const express = require('express')
 const routes = express.Router()
 const usuarioService = require('./src/services/usuarioService')
+
 const UsuarioController = require('./src/controllers/UsuarioController')
 const ClienteController = require('./src/controllers/ClienteController')
 const ServicoController = require('./src/controllers/ServicoController')
+const PrestadorController = require('./src/controllers/PrestadorController')
+
 const usuarioController = new UsuarioController()
 const clienteController = new ClienteController()
 const servicoController = new ServicoController()
+const prestadorController = new PrestadorController()
 
 
 // routes.use vai interceptar todas as rotas que forem chamadas
@@ -42,5 +46,11 @@ routes.get('/servicos', servicoController.obterTodos)
 routes.get('/servico/:id', servicoController.obterPorId)
 routes.post('/servicos', servicoController.cadastrar)
 routes.put('/servico/:id',servicoController.atualizar)
+
+// rotas de prestadores
+routes.get('/prestadores', prestadorController.obterTodos)
+routes.get('/prestador/:id', prestadorController.obterPorId)
+routes.post('/prestadores', prestadorController.cadastrar)
+routes.put('/prestador/:id',prestadorController.atualizar)
 
 module.exports = routes
