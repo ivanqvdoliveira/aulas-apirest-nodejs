@@ -6,7 +6,7 @@ module.exports = class OrcamentoDTO {
     obj = obj || {}
     this.id = obj.id
     this.descricao = obj.descricao
-    this.cliente = obj.cliente  && new ClienteDTO(obj.cliente)
+    this.cliente = obj.cliente && new ClienteDTO(obj.cliente)
     this.itens = obj.itens && obj.itens.map(item => new OrcamentoItemDTO(item)) || []
     this.observacao = obj.observacao
     this.desconto = obj.desconto || 0

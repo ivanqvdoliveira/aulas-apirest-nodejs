@@ -1,0 +1,40 @@
+POST HTTP://localhost:3001/login
+Content-Type: application/json
+
+{
+  "email": "fulano@gmail.com",
+  "senha": "123456"
+}
+
+###
+
+POST HTTP://localhost:3001/servicos
+Content-Type: application/json
+Authorization: b53e6008237b4cc781bedd780a1bb1b4
+
+{
+  "descricao": "Pintura Externa m2",
+  "valor": 1000.0
+}
+
+###
+
+GET HTTP://localhost:3001/servico/1
+Authorization: b53e6008237b4cc781bedd780a1bb1b4
+
+###
+
+PUT HTTP://localhost:3001/servico/1
+Content-Type: application/json
+Authorization: b53e6008237b4cc781bedd780a1bb1b4
+
+{
+  "descricao": "Pintura Interna m2",
+  "valor": 300.0
+}
+
+
+###
+
+GET HTTP://localhost:3001/servicos
+Authorization: d304cf35869e0cbcdff49284bc3eed59

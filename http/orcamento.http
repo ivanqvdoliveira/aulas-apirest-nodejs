@@ -1,0 +1,50 @@
+POST HTTP://localhost:3001/login
+Content-Type: application/json
+
+{
+  "email": "fulano@gmail.com",
+  "senha": "123456"
+}
+
+###
+
+POST HTTP://localhost:3001/orcamentos
+Content-Type: application/json
+Authorization: b1bbc636e8f215432d2f54c615e83ed7
+
+{
+  "descricao": "Orçamento do Jaci Oliveira",
+  "cliente": {
+    "id": 1
+  },
+  "itens": [{
+    "servico": {
+      "id": 1
+    },
+    "prestador": {
+      "id": 2
+    }
+  }]
+}
+
+###
+
+GET HTTP://localhost:3001/orcamento/2
+Authorization: e858810fd7e7f3f3a9e6eab004bbe47f
+
+###
+
+PUT HTTP://localhost:3001/orcamento/3
+Content-Type: application/json
+Authorization: e858810fd7e7f3f3a9e6eab004bbe47f
+
+{
+  "nome": "Beto Barbosa",
+  "email": "barbosa@teste.com"
+}
+
+
+###
+
+GET HTTP://localhost:3001/orcamentos
+Authorization: d304cf35869e0cbcdff49284bc3eed59

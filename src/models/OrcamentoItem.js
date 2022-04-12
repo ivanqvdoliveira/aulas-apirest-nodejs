@@ -3,7 +3,7 @@ const { Model, DataTypes} = require('sequelize')
 class OrcamentoItem extends Model {
   static init(connection) {
     super.init({ // aqui ele vai mapear tudo o que o sequelize já NÂO MAPEIE, no caso, já mapeia id, e datas.
-      idOrcamentoItem: DataTypes.BIGINT,
+      idOrcamento: DataTypes.BIGINT,
       idServico: DataTypes.BIGINT,
       idPrestador: DataTypes.BIGINT,
       desconto: DataTypes.DOUBLE,

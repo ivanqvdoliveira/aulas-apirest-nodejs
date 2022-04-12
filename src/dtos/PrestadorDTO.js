@@ -1,5 +1,4 @@
 const { ModeloInvalidoErro } = require("../erros/typeErros")
-const EnderecoDTO = require("./EnderecoDTO")
 
 module.exports = class PrestadorDTO {
   constructor(obj) {
