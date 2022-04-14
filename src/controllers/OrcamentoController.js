@@ -3,30 +3,30 @@ const { ModeloInvalidoErro } = require('../erros/typeErros');
 const OrcamentoDTO = require('../dtos/OrcamentoDTO');
 
 class OrcamentoController {
-  // async obterTodos (req, res) {
-  //   try {
-  //     let orcamentos = await orcamentoService.obterTodos()
-  //     return res.json(orcamentos)
-  //   } catch (error) {
-  //     console.log(error)
-  //     return res.status(error.status).json(error)
-  //   }
-  // }
+  async obterTodos (req, res) {
+    try {
+      let orcamentos = await orcamentoService.obterTodos()
+      return res.json(orcamentos)
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
+  }
 
-  // async obterPorId (req, res) {
-  //   const id = parseInt(req.params.id)
-  //   try {
-  //     if (!id || isNaN(id)) {
-  //       throw new ModeloInvalidoErro(400, 'ID inválido para consulta de serviço.')
-  //     }
+  async obterPorId (req, res) {
+    const id = parseInt(req.params.id)
+    try {
+      if (!id || isNaN(id)) {
+        throw new ModeloInvalidoErro(400, 'ID inválido para consulta de serviço.')
+      }
 
-  //     let orcamento = await orcamentoService.obterPorId(id)
-  //     return res.json(orcamento)
-  //   } catch (error) {
-  //     console.log(error)
-  //     return res.status(error.status).json(error)
-  //   }
-  // }
+      let orcamento = await orcamentoService.obterPorId(id)
+      return res.json(orcamento)
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
+  }
 
   async cadastrar (req, res) {
     try {

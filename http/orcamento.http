@@ -13,23 +13,23 @@ Content-Type: application/json
 Authorization: b1bbc636e8f215432d2f54c615e83ed7
 
 {
-  "descricao": "Orçamento do Jaci Oliveira",
+  "descricao": "Orçamento do Ivan",
   "cliente": {
-    "id": 1
+    "id": 2
   },
   "itens": [{
     "servico": {
-      "id": 1
+      "id": 2
     },
     "prestador": {
-      "id": 2
+      "id": 3
     }
   }]
 }
 
 ###
 
-GET HTTP://localhost:3001/orcamento/2
+GET HTTP://localhost:3001/orcamento/3
 Authorization: e858810fd7e7f3f3a9e6eab004bbe47f
 
 ###

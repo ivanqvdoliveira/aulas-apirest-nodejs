@@ -2,7 +2,7 @@ const Orcamento = require('../models/Orcamento')
 const OrcamentoItem = require('../models/OrcamentoItem')
 const OrcamentoDTO = require('../dtos/OrcamentoDTO')
 const OrcamentoItemDTO = require('../dtos/OrcamentoItemDTO')
-
+const orcamentoCQRS = require('../cqrs/orcamentoCQRS')
 const connection = require('../database/index')
 
 const {
@@ -28,16 +28,14 @@ async function obterPorId (id) {
    */
 
   if (!orcamento) {
-    throw new NaoEncontradoErro(404, `Não foi possível encontrar serviço com id ${id}`)
+    throw new NaoEncontradoErro(404, `Não foi possível encontrar orçamento com id ${id}`)
   }
 
-  return new OrcamentoDTO(orcamento)
+  return await orcamentoCQRS.obterOrcamento(id)
 }
 
 async function obterTodos () {
-  let orcamentos = await Orcamento.findAll()
-
-  return orcamentos && orcamentos.map(c => new OrcamentoDTO(c)) || []
+  return await orcamentoCQRS.obterOrcamentos()
 }
 
 async function cadastrar (orcamentoDTO) {
@@ -75,7 +73,7 @@ async function cadastrar (orcamentoDTO) {
   }
 
   // if (!orcamento) {
-  //   throw new AplicacaoErro(500, 'Não foi possível cadastrar o serviço.')
+  //   throw new AplicacaoErro(500, 'Não foi possível cadastrar o orçamento.')
   // }
 
   // return new OrcamentoDTO(orcamento)
@@ -85,13 +83,13 @@ async function atualizar (orcamentoDTO) {
   let orcamento  = await Orcamento.findByPk(orcamentoDTO.id)
 
   if (!orcamento) {
-    throw new NaoEncontradoErro(404, `Não foi possível encontrar um serviço com o id ${orcamentoDTO.id}`)
+    throw new NaoEncontradoErro(404, `Não foi possível encontrar um orçamento com o id ${orcamentoDTO.id}`)
   }
   
   let atualiado = await Orcamento.update(orcamentoDTO, { where: { id: orcamentoDTO.id }})
 
   if (!atualiado) {
-    throw new AplicacaoErro(500, 'Não foi possível atualizar o serviço')
+    throw new AplicacaoErro(500, 'Não foi possível atualizar o orçamento')
   }
 
   return orcamentoDTO
