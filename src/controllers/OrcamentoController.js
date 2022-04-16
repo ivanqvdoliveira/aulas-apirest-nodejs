@@ -3,16 +3,6 @@ const { ModeloInvalidoErro } = require('../erros/typeErros');
 const OrcamentoDTO = require('../dtos/OrcamentoDTO');
 
 class OrcamentoController {
-  async obterTodos (req, res) {
-    try {
-      let orcamentos = await orcamentoService.obterTodos()
-      return res.json(orcamentos)
-    } catch (error) {
-      console.log(error)
-      return res.status(error.status).json(error)
-    }
-  }
-
   async obterPorId (req, res) {
     const id = parseInt(req.params.id)
     try {
@@ -22,6 +12,16 @@ class OrcamentoController {
 
       let orcamento = await orcamentoService.obterPorId(id)
       return res.json(orcamento)
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
+  }
+
+  async obterTodos (req, res) {
+    try {
+      let orcamentos = await orcamentoService.obterTodos()
+      return res.json(orcamentos)
     } catch (error) {
       console.log(error)
       return res.status(error.status).json(error)
@@ -42,26 +42,26 @@ class OrcamentoController {
     }
   }
 
-  // async atualizar (req, res) {
-  //   const { id } = req.params
+  async atualizar (req, res) {
+    const { id } = req.params
 
-  //   try {
-  //     if (!id) {
-  //       throw new ModeloInvalidoErro(400, 'O ID é obrigatório para atualizar o serviço')
-  //     }
+    try {
+      if (!id) {
+        throw new ModeloInvalidoErro(400, 'O ID é obrigatório para atualizar o orçamento')
+      }
 
-  //     let orcamentoDTO = new OrcamentoDTO(req.body)
-  //     orcamentoDTO.id = parseInt(id)
-  //     orcamentoDTO.modeloValidoAtualizacao()
+      let orcamentoDTO = new OrcamentoDTO(req.body)
+      orcamentoDTO.id = parseInt(id)
+      // orcamentoDTO.modeloValidoAtualizacao()
 
-  //     let orcamentoAtualizado = await orcamentoService.atualizar(orcamentoDTO)
-  //     return res.json(orcamentoAtualizado)
+      let orcamentoAtualizado = await orcamentoService.atualizar(orcamentoDTO)
+      return res.json(orcamentoAtualizado)
 
-  //   } catch (error) {
-  //     console.log(error)
-  //     return res.status(error.status).json(error)
-  //   }
-  // }
+    } catch (error) {
+      console.log(error)
+      return res.status(error.status).json(error)
+    }
+  }
 }
 
 module.exports = OrcamentoController

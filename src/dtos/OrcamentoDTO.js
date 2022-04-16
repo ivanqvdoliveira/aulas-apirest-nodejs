@@ -15,9 +15,4 @@ module.exports = class OrcamentoDTO {
     this.criadoEm = obj.criadoEm
     this.atualizadoEm = obj.atualizadoEm
   }
-
-  calcularValorTotal () {
-    let valorTotal = this.valor + this.acrescimo - this.desconto
-    return valorTotal
-  }
 }

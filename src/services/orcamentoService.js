@@ -5,12 +5,7 @@ const OrcamentoItemDTO = require('../dtos/OrcamentoItemDTO')
 const orcamentoCQRS = require('../cqrs/orcamentoCQRS')
 const connection = require('../database/index')
 
-const {
-  NaoEncontradoErro,
-  AplicacaoErro
-} = require('../erros/typeErros')
-const { format } = require('express/lib/response')
-
+const { NaoEncontradoErro, AplicacaoErro } = require('../erros/typeErros')
 async function obterPorId (id) {
   let orcamento = await Orcamento.findByPk(id)
   // quando houver consultas complexas, este modelo de consulta ao banco não é indicado. num exmeplo de orcamento com 2 itens, passaraim muitas vezes pelo banco, se tiver mais de 50 itens poderia topar o banco
@@ -42,7 +37,9 @@ async function cadastrar (orcamentoDTO) {
   let transaction = await connection.transaction() // um transaction faz com que vc guarde as informações na memoria, sem salvar no disco (bd). com isso, caso tenha feito algo errado é possível dar um rollback, se não, pode constinuar com um commit
 
   try {
+
     orcamentoDTO.idCliente = orcamentoDTO.cliente.id
+    orcamentoDTO.id = undefined
     // orcamentoDTO.idStatus = orcamentoDTO.status.id
 
     let orcamento = await Orcamento.create(orcamentoDTO, { transaction }) // passando aqui o transaction, ele vai saber lá no final fazer o rollback caso seja necessario, sem isso ele n saberá, e não será feito
@@ -50,6 +47,7 @@ async function cadastrar (orcamentoDTO) {
     orcamento = new OrcamentoDTO(orcamento)
 
     orcamento.itens = orcamentoDTO.itens.map(item => {
+      item.id = undefined
       item.idOrcamento = orcamento.id
       item.idServico = item.servico.id
       item.idPrestador = item.prestador.id
@@ -65,31 +63,88 @@ async function cadastrar (orcamentoDTO) {
     }) // sabe dar varios inserts de uma vez só, faz esperando uma lista de itens
 
     orcamento.itens = itens.map(i => new OrcamentoItemDTO(i))
-    
+    if(!itens){
+      throw new AplicacaoErro(500,'Não foi possível cadastrar os itens.');
+    }
 
     await transaction.commit()
+
+    return orcamentoCQRS.obterOrcamento(orcamento.id)
   } catch (error) {
     await transaction.rollback()
   }
 
-  // if (!orcamento) {
-  //   throw new AplicacaoErro(500, 'Não foi possível cadastrar o orçamento.')
-  // }
-
-  // return new OrcamentoDTO(orcamento)
+  return {}
 }
 
 async function atualizar (orcamentoDTO) {
-  let orcamento  = await Orcamento.findByPk(orcamentoDTO.id)
+  let transaction = await connection.transaction()
 
-  if (!orcamento) {
-    throw new NaoEncontradoErro(404, `Não foi possível encontrar um orçamento com o id ${orcamentoDTO.id}`)
+  try {
+
+    let orcamentoBD = await orcamentoCQRS.obterOrcamento(orcamentoDTO.id)
+
+    if (!orcamentoBD) {
+      throw new NaoEncontradoErro(404, `Não é possível atualizar o orçamento pelo id ${orcamentoDTO.id}`)
+    }
+
+    orcamentoDTO = _atualizarItens(orcamentoDTO, orcamentoBD, transaction) // função que vai saber quem/oque removeu, alterou etc.
+
+    await transaction.commit()
+
+  } catch (error) {
+
+    await transaction.rollback()
   }
-  
-  let atualiado = await Orcamento.update(orcamentoDTO, { where: { id: orcamentoDTO.id }})
 
-  if (!atualiado) {
-    throw new AplicacaoErro(500, 'Não foi possível atualizar o orçamento')
+  return {}
+}
+
+async function _atualizarItens (orcamentoDTO, orcamentoBD, transaction) {
+  let itensAdicionados = []
+  let itensRemovidos = []
+  let itensAtualizados = []
+
+  orcamentoDTO.itens.map(item => {
+    if (!orcamentoBD.itens.some(i => i.id === item.id)) {
+      item.idOrcamento = orcamentoDTO.id
+      item.idServico = item.servico.id
+      item.idPrestador = item.prestador.id
+      item.calcularValorTotal()
+
+      itensAdicionados.push(item)
+    }
+  })
+
+  orcamentoBD.itens.map(item => {
+    item.idOrcamento = orcamentoDTO.id
+    item.idServico = item.servico.id
+    item.idPrestador = item.prestador.id
+    item.calcularValorTotal()
+
+    if (!orcamentoDTO.itens.some(i => i.id === item.id)) {
+      itensRemovidos.push(item)
+    } else {
+      itensAtualizados.push(item)
+    }
+  })
+
+  if (itensAdicionados.length) {
+    itensAdicionados = await OrcamentoItem.bulkCreate(itensAdicionados, {
+      transaction,
+      returning: true,
+      validate: true
+    })
+  }
+
+  if (itensRemovidos.length) {
+    await OrcamentoItem.destroy({ where: { id: itensRemovidos.map(i => i.id) }, transaction})
+  }
+
+  if (itensAtualizados.length) {
+    for (let item of itensAtualizados) {
+      await OrcamentoItem.update(item, { where: { id: item.id }})
+    }
   }
 
   return orcamentoDTO

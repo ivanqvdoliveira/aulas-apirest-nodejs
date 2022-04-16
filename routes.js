@@ -59,5 +59,6 @@ routes.put('/prestador/:id',prestadorController.atualizar)
 routes.post('/orcamentos', orcamentoController.cadastrar)
 routes.get('/orcamentos', orcamentoController.obterTodos)
 routes.get('/orcamento/:id', orcamentoController.obterPorId)
+routes.put('/orcamento/:id', orcamentoController.atualizar)
 
 module.exports = routes

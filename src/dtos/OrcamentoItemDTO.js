@@ -18,7 +18,7 @@ module.exports = class OrcamentoItemDTO {
   }
 
   calcularValorTotal () {
-    let valorTotal = this.valor + this.acrescimo - this.desconto
-    return valorTotal
+    this.valorTotal = this.valor + this.acrescimo - this.desconto
+    return this.valorTotal
   }
 }

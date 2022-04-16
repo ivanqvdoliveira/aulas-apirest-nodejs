@@ -107,7 +107,7 @@ async function obterOrcamento (idOrcamento) {
     })
 
     return new OrcamentoItemDTO({
-      id: item.idItems,
+      id: item.idItem,
       servico,
       prestador,
       desconto: item.descontoItem,

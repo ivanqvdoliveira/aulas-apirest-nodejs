@@ -10,36 +10,36 @@ module.exports = {
       },
       descricao: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       idCliente: {
         type: Sequelize.BIGINT,
-        allowNull: false,
-      },
-      observacao: {
-        type: Sequelize.TEXT,
-        allowNull: true,
+        allowNull: false
       },
       desconto: {
         type: Sequelize.DOUBLE,
-        allowNull: true,
+        allowNull: false
       },
       acrescimo: {
         type: Sequelize.DOUBLE,
-        allowNull: true,
+        allowNull: false
       },
       valorTotal: {
         type: Sequelize.DOUBLE,
-        allowNull: true,
+        allowNull: false
+      },
+      observacao: {
+        type: Sequelize.TEXT,
+        allowNull: true
       },
       criadoEm: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
+        defaultValue: Sequelize.fn('NOW')
       },
       atualizadoEm: {
         type: Sequelize.DATE,
         defaultValue: null,
-        allowNull: true,
+        allowNull: true
       }
     })
   },

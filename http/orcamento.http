@@ -13,34 +13,61 @@ Content-Type: application/json
 Authorization: b1bbc636e8f215432d2f54c615e83ed7
 
 {
-  "descricao": "Orçamento do Ivan",
-  "cliente": {
-    "id": 2
-  },
-  "itens": [{
-    "servico": {
-      "id": 2
+  "id": "1",
+  "descricao": "Orçamento do Joelma",
+  "itens": [
+    {
+      "id": "",
+      "servico": {
+        "id": "1",
+        "descricao": "Pintura Interna m2",
+        "observacao": null,
+        "valor": 9300
+      },
+      "prestador": {
+        "id": "4",
+        "nome": "Beto Barbosa 2",
+        "email": null,
+        "telefone": null,
+        "cpfOuCnpj": null,
+        "criadoEm": "2022-04-12T01:37:06.311Z"
+      },
+      "desconto": 100,
+      "acrescimo": 200,
+      "valor": 1000,
+      "valorTotal": 0,
+      "observacao": null,
+      "criadoEm": "2022-04-15T03:57:04.604Z"
     },
-    "prestador": {
-      "id": 3
+    {
+      "id": "1",
+      "servico": {
+        "id": "1",
+        "descricao": "Pintura Interna m2",
+        "observacao": null,
+        "valor": 8300
+      },
+      "prestador": {
+        "id": "3",
+        "nome": "Beto Barbosa",
+        "email": "barbosa@teste.com",
+        "telefone": null,
+        "cpfOuCnpj": null,
+        "criadoEm": "2022-04-10T21:32:39.304Z"
+      },
+      "desconto": 0,
+      "acrescimo": 1000,
+      "valor": 2000,
+      "valorTotal": 0,
+      "observacao": null,
+      "criadoEm": "2022-04-15T03:57:04.604Z"
     }
-  }]
-}
-
-###
-
-GET HTTP://localhost:3001/orcamento/3
-Authorization: e858810fd7e7f3f3a9e6eab004bbe47f
-
-###
-
-PUT HTTP://localhost:3001/orcamento/3
-Content-Type: application/json
-Authorization: e858810fd7e7f3f3a9e6eab004bbe47f
-
-{
-  "nome": "Beto Barbosa",
-  "email": "barbosa@teste.com"
+  ],
+  "desconto": 0,
+  "acrescimo": 0,
+  "valorTotal": 0,
+  "criadoEm": "2022-04-15T03:57:04.594Z",
+  "atualizadoEm": "2022-04-15T03:57:04.594Z"
 }
 
 
