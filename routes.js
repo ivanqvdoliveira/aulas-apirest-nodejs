@@ -20,7 +20,7 @@ routes.use(async (req, res, next) => {
   if (process.env.AUTENTICACAO === 'TRUE') {
     const { authorization } = req.headers
     let autenticado = await usuarioService.validarAutenticacao(authorization)
-    if (!autenticado && req.originalUrl !== '/login') { // originalLogin pega exatamente a rota que está registrada no routes
+    if (!autenticado && req.originalUrl !== '/login') { // originalUrl pega exatamente a rota que está registrada no routes
       return res.status(401).json({
         status: 401,
         message: 'Usuário não autenticado',
