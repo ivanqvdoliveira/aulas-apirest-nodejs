@@ -12,42 +12,81 @@ Content-Type: application/json
 Authorization: b1bbc636e8f215432d2f54c615e83ed7
 
 {
-  "descricao": "Orçamento do Joelma",
+  "id": "1",
+  "descricao": "Orçamento do Joelma 2",
   "cliente": {
-    "id": 1
+    "id": "2",
+    "nome": "Sasha Meneguel",
+    "cpfOuCnpj": "35789635896",
+    "telefone": "998856323",
+    "enderecos": []
   },
   "itens": [
     {
+      "id": "3",
       "servico": {
         "id": "1",
         "descricao": "Pintura Interna m2",
-        "valor": 9300
+        "observacao": null,
+        "valor": 300
       },
       "prestador": {
         "id": "4",
         "nome": "Beto Barbosa 2",
+        "email": null,
+        "telefone": null,
+        "cpfOuCnpj": null,
+        "criadoEm": "2022-04-12T01:37:06.311Z"
       },
-      "desconto": 100,
-      "acrescimo": 200,
-      "valor": 1000,
-      "valorTotal": 0,
+      "desconto": 50,
+      "acrescimo": 1550,
+      "valor": 2000,
+      "valorTotal": 3500,
+      "observacao": null,
+      "criadoEm": "2022-04-15T03:57:04.604Z"
     },
     {
-      "id": "1",
+      "id": "6",
       "servico": {
         "id": "1",
         "descricao": "Pintura Interna m2",
-        "valor": 8300
+        "observacao": null,
+        "valor": 300
       },
       "prestador": {
         "id": "3",
         "nome": "Beto Barbosa",
         "email": "barbosa@teste.com",
+        "telefone": null,
+        "cpfOuCnpj": null,
         "criadoEm": "2022-04-10T21:32:39.304Z"
       },
-      "desconto": 0,
-      "acrescimo": 1000,
+      "desconto": 100,
+      "acrescimo": 2000,
       "valor": 2000,
+      "valorTotal": 3900,
+      "observacao": null,
+      "criadoEm": "2022-04-15T03:57:04.604Z"
+    },
+    {
+      "id": "2",
+      "servico": {
+        "id": "2",
+        "descricao": "colocação de cerâmica m2",
+        "observacao": null,
+        "valor": 1000
+      },
+      "prestador": {
+        "id": "2",
+        "nome": "Jaci Oliveira",
+        "email": null,
+        "telefone": null,
+        "cpfOuCnpj": null,
+        "criadoEm": "2022-04-10T21:29:57.284Z"
+      },
+      "desconto": 0,
+      "acrescimo": 0,
+      "valor": 0,
       "valorTotal": 0,
       "observacao": null,
       "criadoEm": "2022-04-15T03:57:04.604Z"
@@ -147,7 +186,7 @@ Authorization: b1bbc636e8f215432d2f54c615e83ed7
 
 
 ###
-GET HTTP://localhost:3001/orcamento/1
+GET HTTP://localhost:3001/orcamento/2
 Authorization: d304cf35869e0cbcdff49284bc3eed59
 
 ###
