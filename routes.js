@@ -17,15 +17,17 @@ const orcamentoController = new OrcamentoController()
 
 // routes.use vai interceptar todas as rotas que forem chamadas
 routes.use(async (req, res, next) => {
-  // const { authorization } = req.headers
-  // let autenticado = await usuarioService.validarAutenticacao(authorization)
-  // if (!autenticado && req.originalUrl !== '/login') { // originalLogin pega exatamente a rota que está registrada no routes
-  //   return res.status(401).json({
-  //     status: 401,
-  //     message: 'Usuário não autenticado',
-  //     name: 'NaoAutorizado'
-  //   })
-  // }
+  if (process.env.AUTENTICACAO === 'TRUE') {
+    const { authorization } = req.headers
+    let autenticado = await usuarioService.validarAutenticacao(authorization)
+    if (!autenticado && req.originalUrl !== '/login') { // originalLogin pega exatamente a rota que está registrada no routes
+      return res.status(401).json({
+        status: 401,
+        message: 'Usuário não autenticado',
+        name: 'NaoAutorizado'
+      })
+    }
+  }
 
   next() // quando chama esta função está pedindo para prosseguir.
 })
