@@ -88,66 +88,75 @@ async function atualizar (orcamentoDTO) {
       throw new NaoEncontradoErro(404, `Não é possível atualizar o orçamento pelo id ${orcamentoDTO.id}`)
     }
 
-    orcamentoDTO = _atualizarItens(orcamentoDTO, orcamentoBD, transaction) // função que vai saber quem/oque removeu, alterou etc.
+    await _adicionarItens(orcamentoDTO, orcamentoBD, transaction)
+    await _atualizarItens(orcamentoDTO, orcamentoBD, transaction)
+    await _deletarItens(orcamentoDTO, orcamentoBD, transaction)
 
     await transaction.commit()
+
+    return await orcamentoCQRS.obterOrcamento(orcamentoDTO.id)
 
   } catch (error) {
 
     await transaction.rollback()
+    throw new AplicacaoErro(500, `Não foi possível atualizar o orcamento, motivo: ${error.message}`)
   }
 
   return {}
 }
 
-async function _atualizarItens (orcamentoDTO, orcamentoBD, transaction) {
+async function _adicionarItens(orcamentoDTO, orcamentoBD, transaction){
   let itensAdicionados = []
-  let itensRemovidos = []
-  let itensAtualizados = []
 
   orcamentoDTO.itens.map(item => {
-    if (!orcamentoBD.itens.some(i => i.id === item.id)) {
-      item.idOrcamento = orcamentoDTO.id
-      item.idServico = item.servico.id
-      item.idPrestador = item.prestador.id
-      item.calcularValorTotal()
-
-      itensAdicionados.push(item)
+    if (!orcamentoBD.itens.some(i => i.id == item.id)) {
+        item.idOrcamento = orcamentoDTO.id
+        item.idServico = item.servico.id
+        item.idPrestador = item.prestador.id
+        item.calcularValorTotal()
+        
+        itensAdicionados.push(item)
     }
   })
 
-  orcamentoBD.itens.map(item => {
-    item.idOrcamento = orcamentoDTO.id
-    item.idServico = item.servico.id
-    item.idPrestador = item.prestador.id
-    item.calcularValorTotal()
-
-    if (!orcamentoDTO.itens.some(i => i.id === item.id)) {
-      itensRemovidos.push(item)
-    } else {
-      itensAtualizados.push(item)
-    }
-  })
-
-  if (itensAdicionados.length) {
-    itensAdicionados = await OrcamentoItem.bulkCreate(itensAdicionados, {
+  if(itensAdicionados.length){
+    itensAdicionados =  await OrcamentoItem.bulkCreate(itensAdicionados, {
       transaction,
-      returning: true,
+      returning:true,
       validate: true
     })
   }
+}
 
-  if (itensRemovidos.length) {
-    await OrcamentoItem.destroy({ where: { id: itensRemovidos.map(i => i.id) }, transaction})
-  }
+async function _atualizarItens(orcamentoDTO, orcamentoBD, transaction){
+  let itensParaAtualizar = []
+  orcamentoDTO.itens.map(item => {
+    if (orcamentoBD.itens.some(i => i.id == item.id)) {
+      item.calcularValorTotal()
+      itensParaAtualizar.push(item)
+    }
+  })
 
-  if (itensAtualizados.length) {
-    for (let item of itensAtualizados) {
-      await OrcamentoItem.update(item, { where: { id: item.id }})
+  if (itensParaAtualizar.length) {
+    for (let item of itensParaAtualizar) {
+      await OrcamentoItem.update(item, { where : { id: item.id }})
     }
   }
+}
 
-  return orcamentoDTO
+async function _deletarItens(orcamentoDTO, orcamentoBD, transaction){
+  let itensParaRemover = []
+  orcamentoBD.itens.map(item => {
+    if (!orcamentoDTO.itens.some(i => i.id == item.id)) {
+      itensParaRemover.push(item)
+    }
+  })
+
+  if (itensParaRemover.length) {
+    await OrcamentoItem.destroy({ where:
+      { id: itensParaRemover.map(i => i.id) }, transaction
+    })
+  }
 }
 
 module.exports = {
