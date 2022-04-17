@@ -39,7 +39,7 @@ async function cadastrar (orcamentoDTO) {
   try {
 
     orcamentoDTO.idCliente = orcamentoDTO.cliente.id
-    orcamentoDTO.id = undefined
+    orcamentoDTO.id = undefined // aqui garante que usuario n tem ID
     // orcamentoDTO.idStatus = orcamentoDTO.status.id
 
     let orcamento = await Orcamento.create(orcamentoDTO, { transaction }) // passando aqui o transaction, ele vai saber lá no final fazer o rollback caso seja necessario, sem isso ele n saberá, e não será feito
