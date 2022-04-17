@@ -82,12 +82,17 @@ async function obterOrcamentos(){
   })
 }
 
+
 async function obterOrcamento (idOrcamento) {
   let where = `WHERE O."id" = ${idOrcamento}`
   let [ orcamentos ] = await sequelize.query(`${sqlOrcamento} ${where}`)
   let orcamentoBanco = orcamentos[0]
 
-
+/**
+ * Metodo que retorna o Orcamento com todos os seus itens.
+ * @param {Number} idOrcamento 
+ * @returns OrcamentoDTO
+ */
   let orcamento = new OrcamentoDTO(orcamentos[0])
   orcamento.cliente = new ClienteDTO({
     id: orcamentoBanco.idCliente,
